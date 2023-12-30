@@ -48,10 +48,11 @@ def main():
 
                 if len(playerClicks) == 2:
                     startRow, startCol = playerClicks[0]
-                    if gs.board[startRow][startCol]=="eh":
+                    if gs.board[startRow][startCol]=="eh": ## esse if tem a função ed garantir que um casa vazia nao possa comer uma peça
                         pass
                     else:
                         move = HnefataflEngine.Move(playerClicks[0],playerClicks[1],gs.board)
+                        print(move.getHnefataflNotation())
                         gs.makeMove(move)
                     sqSelected = ()
                     playerClicks = []

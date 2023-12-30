@@ -20,23 +20,45 @@ class GameState():
             ["eh", "eh", "eh", "eh", "eh", "eh", "eh", "eh", "eh", "eh", "eh"],
             ["eh", "eh", "eh", "eh", "eh", "ap", "eh", "eh", "eh", "eh", "eh"],
             ["xh", "eh", "eh", "ap", "ap", "ap", "ap", "ap", "eh", "eh", "xh"]]
+        
+        self.defenseToMove = True
+        self.moveLog = []
     
     def makeMove(self,move):
         self.board[move.startRow][move.startCol] = "eh"
         self.board[move.endRow][move.endCol] = move.pieceMoved
+        self.moveLog.append(move)
+        self.defenseToMove = not self.defenseToMove
+    
+    def undoMove(self):
+        self.moveLog[-1]
+        
+
 
 
 class Move():
+    logRow = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6, "8": 7, "9": 8, "10": 9, "11": 10}
+    rowToLog = {v: k for k, v in logRow.items()}
+    logCol = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, "J": 9, "K": 10}
+    colToLog = {v: k for k, v in logCol.items()}
 
     def __init__(self,startSq,endSq,board):
+       
+
         self.startRow = startSq[0]
         self.startCol = startSq[1]
-      
         self.endRow = endSq[0]
         self.endCol = endSq[1]        
+
         self.pieceMoved = board[self.startRow][self.startCol]
         self.pieceCaptured = board[self.endRow][self.endCol]
 
+
+    def getHnefataflNotation(self):
+        return self.getRankFile(self.startRow,self.startCol) + self.getRankFile(self.endRow,self.endCol)
+
+    def getRankFile(self,r,c):
+        return self.colToLog[c] + self.rowToLog[r]
 
 
 
