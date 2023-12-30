@@ -40,16 +40,19 @@ def main():
                 row = location[1]//SQ_SIZE
                 if sqSelected == (row,col):
                     sqSelected = ()
-                    playerClicks = [] #essa logica vai limpar a escolha caso o usuário selecione a mesma casa
-                if gs.board[row][col] == "eh":
-                    sqSelected = ()
-                    playerClicks = []
+                    playerClicks = [] #essa logica vai limpar a escolha caso o usuário selecione a mesma casa     
                 else:
                     sqSelected = (row, col)
+                
                     playerClicks.append(sqSelected)
+
                 if len(playerClicks) == 2:
-                    move = HnefataflEngine.Move(playerClicks[0],playerClicks[1],gs.board)
-                    gs.makeMove(move)
+                    startRow, startCol = playerClicks[0]
+                    if gs.board[startRow][startCol]=="eh":
+                        pass
+                    else:
+                        move = HnefataflEngine.Move(playerClicks[0],playerClicks[1],gs.board)
+                        gs.makeMove(move)
                     sqSelected = ()
                     playerClicks = []
 
