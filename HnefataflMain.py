@@ -30,6 +30,8 @@ def main():
     running = True
     sqSelected= ()
     playerClicks = []
+    validMove = gs.getValidMove()
+    moved = False
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
@@ -52,13 +54,19 @@ def main():
                         pass
                     else:
                         move = HnefataflEngine.Move(playerClicks[0],playerClicks[1],gs.board)
-                        print(move.getHnefataflNotation())
-                        gs.makeMove(move)
+                        if move in validMove:
+                            print(move.getHnefataflNotation())
+                            gs.makeMove(move)
+                            moved = True
                     sqSelected = ()
                     playerClicks = []
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z:
                     gs.undoMove()
+                    moved = True
+            if moved:
+                validMove = gs.getValidMove()
+                moved = False
         
 
         DrawGameState(screen,gs)
