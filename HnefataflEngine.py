@@ -31,8 +31,12 @@ class GameState():
         self.defenseToMove = not self.defenseToMove
     
     def undoMove(self):
-        self.moveLog[-1]
+        if len(self.moveLog) != 0:
+            move = self.moveLog.pop()  
+            self.board[move.startRow][move.startCol]   = move.pieceMoved
+            self.board[move.endRow][move.endCol] = move.pieceCaptured
         
+
 
 
 
