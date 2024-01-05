@@ -38,36 +38,64 @@ class GameState():
             self.board[move.endRow][move.endCol] = move.pieceCaptured
             self.defenseToMove =  not (self.defenseToMove)
     
-    def getValidMove(self):
-        return self.getAllPossibleMoves() 
-
-    def getAllPossibleMoves(self):
+    def getValidMove(self,startSq,endSq,board):
         moves = []
-        for r in range(len(self.board)):
-            for c in range(len(self.board[r])):
-                typePiece = self.board[r][c][0]
-                if (typePiece == "d"):
-                    piece = self.board[r][c][1]
-                    if piece == "p":
-                        self.NormalPiecesMove(r,c,moves)
+        startRow = startSq[0]
+        startCol = startSq[1]
+        endRow = endSq[0]
+        endCol = endSq[1] 
+        if(self.board[startRow][startCol] == "dp"):
+            print("ccc")
+            moves = self.NormalPiecesMove(startRow,startCol,endRow,endCol,board)
+            print(moves)
+        return moves
+
+        
+        
                                   
               
-        return moves
     
-    def NormalPiecesMove(self,r,c,moves):
-        directions = ((-1,0),(0,-1),(1,0),(0,1))#esquerda,direita,cima,baixo
-        for d in directions:
-            for i in range(1,11):
-                endRow = r + d[0] * i
-                endCol = c + d[1] * i
-                if 0 <= endRow < 11 and 0<= endCol < 11:
-                    print(f"{endRow},{endCol}")
-                    if(self.board[endRow][endCol]!="eh"):
-                        break
+    def NormalPiecesMove(self,r_inicial,c_inicial,r_final,c_final,board):
+        moves = []
+
+        if(r_inicial == r_final) or (c_inicial == c_final):
+            #Para esquerda
+            if(c_inicial>c_final):
+                while c_inicial >= c_final and c_inicial >=0:
+                    if(board[r_inicial][c_inicial-1]=="eh"):
+                        moves.append((r_inicial,c_inicial-1))
+                        c_inicial = c_inicial-1
                     else:
-                        moves.append(Move((r,c),(endRow,endCol),self.board))
-                else:
-                    break
+                        break
+            #Para direita
+            if(c_inicial<c_final):
+                while c_inicial <= c_final and c_inicial <=9:
+                    if(board[r_inicial][c_inicial+1]=="eh"):
+                        moves.append((r_inicial,c_inicial+1))
+                        c_inicial = c_inicial+1
+                    else:
+                        break
+
+            #Para cima
+            if(r_inicial>r_final):
+                while r_inicial>=r_final and r_final>=0:
+                    if(board[r_inicial-1][c_inicial]=="eh"):
+                        moves.append((r_inicial-1,c_inicial))
+                        r_inicial = r_inicial-1
+                    else:
+                        break
+            #Para Baixo
+            if(r_inicial<r_final):
+                while r_inicial<=r_final and r_inicial<=9:
+                    if(board[r_inicial+1][c_inicial]=="eh"):
+                        moves.append((r_inicial+1,c_inicial))
+                        r_inicial = r_inicial+1
+                    else:
+                        break
+        else:
+            pass
+
+        return moves
 
 
    
