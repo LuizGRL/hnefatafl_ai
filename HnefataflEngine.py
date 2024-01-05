@@ -21,6 +21,7 @@ class GameState():
             ["eh", "eh", "eh", "eh", "eh", "ap", "eh", "eh", "eh", "eh", "eh"],
             ["xh", "eh", "eh", "ap", "ap", "ap", "ap", "ap", "eh", "eh", "xh"]]
         
+        self.moveFunctions={"p":self.NormalPiecesMove}
         self.defenseToMove = True
         self.moveLog = []
     
@@ -41,20 +42,37 @@ class GameState():
         return self.getAllPossibleMoves() 
 
     def getAllPossibleMoves(self):
-        moves = [Move((0,3),(0,0),self.board)]
+        moves = []
         for r in range(len(self.board)):
             for c in range(len(self.board[r])):
                 typePiece = self.board[r][c][0]
-                if (typePiece == "d" and self.defenseToMove) and (typePiece== "a"  and not self.defenseToMove):
+                if (typePiece == "d"):
                     piece = self.board[r][c][1]
                     if piece == "p":
-                        self.NormalPiecesMove(r,c,self.board)
-                elif(typePiece=="t" and self.defenseToMove):
-                    self.KingPieceMove()
+                        self.NormalPiecesMove(r,c,moves)
+                                  
+              
         return moves
     
-    def NormalPiecesMove(self):
-        pass
+    def NormalPiecesMove(self,r,c,moves):
+        directions = ((-1,0),(0,-1),(1,0),(0,1))#esquerda,direita,cima,baixo
+        for d in directions:
+            for i in range(1,11):
+                endRow = r + d[0] * i
+                endCol = c + d[1] * i
+                if 0 <= endRow < 11 and 0<= endCol < 11:
+                    print(f"{endRow},{endCol}")
+                    if(self.board[endRow][endCol]!="eh"):
+                        break
+                    else:
+                        moves.append(Move((r,c),(endRow,endCol),self.board))
+                else:
+                    break
+
+
+   
+
+                
     def KingPieceMove(self):
         pass
     

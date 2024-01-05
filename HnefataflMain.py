@@ -58,12 +58,17 @@ def main():
                             print(move.getHnefataflNotation())
                             gs.makeMove(move)
                             moved = True
-                    sqSelected = ()
-                    playerClicks = []
+                            sqSelected = ()
+                            playerClicks = []
+                        else:
+                            playerClicks = [sqSelected]
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z:
                     gs.undoMove()
                     moved = True
+                if e.key == p.K_q:
+                    sqSelected = ()
+                    playerClicks = []
             if moved:
                 validMove = gs.getValidMove()
                 moved = False
